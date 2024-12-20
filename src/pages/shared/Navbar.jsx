@@ -6,13 +6,23 @@
 
 import { FaBars } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 
 
 
 const Navbar = () => {
+    const { user, logOutUser  } = useAuth();
 
-    
+    const handleLogOut = () => {
+        logOutUser()
+        .then(() => {
+            console.log('logout Successful')
+        })
+        .catch(err => {
+            console.log( 'Error ',err.message)
+        })
+    }
 
 
 
@@ -54,11 +64,20 @@ const Navbar = () => {
                     <div className="third">
 
                         <div className="*:font-bold">
-                          
+
+                            {
+                                user ?
+                                    <Link 
+                                    onClick={handleLogOut}
+                                    className="hover:underline  decoration-2 underline-offset-2 font-bold" to='/register' >Log Out</Link>
+                                    :
+                                    <div>
                                         <Link className="hover:underline  decoration-2 underline-offset-2 font-bold" to='/SignIn' >SignIn</Link>
                                         <span> / </span>
                                         <Link className="hover:underline  decoration-2 underline-offset-2 font-bold" to='/register' >Register</Link>
-                                  
+                                    </div>
+                            }
+
 
                         </div>
                     </div>

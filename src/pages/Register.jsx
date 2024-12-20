@@ -2,21 +2,43 @@
 
 import { Link } from "react-router-dom";
 
-
+import Lottie from "lottie-react";
+import registerLottie from '../../src/assets/register.json'
+import useAuth from "../hooks/useAuth";
+import SocialLogin from "./shared/SocialLogin";
 
 const Register = () => {
+    const { createUser } = useAuth();
 
-   
+   const handleRegister = e => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password)
 
-    
+    //password validation
+    //show password validation error
+    createUser(email, password)
+    .then(result => {
+        console.log('Register', result.user)
+    })
+    .catch(err => {
+        console.log(err.message)
+    })
+
+
+   }
+
+    // due password validation .................................
 
    
     
     return (
         <div className="flex ">
            <div className="flex-1"> 
-            <form  >
-                <div className="form-control">
+            <form onSubmit={handleRegister} >
+                {/* <div className="form-control">
                     <label className="label">
                         <span className="label-text font-semibold">Name</span>
                     </label>
@@ -37,7 +59,7 @@ const Register = () => {
                         placeholder="Photo Url"
                         className="input input-bordered"
                         required />
-                </div>
+                </div> */}
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text font-semibold">Email</span>
@@ -59,7 +81,7 @@ const Register = () => {
                         placeholder="password"
                         className="input input-bordered"
                         required
-                        autoComplete="current-password"
+                        // autoComplete="current-password"
                         
                     />
 
@@ -88,13 +110,14 @@ const Register = () => {
                     <p className="text-[14px] mt-3">Already Customer ? <Link to="/SignIn"><button className="link link-info font-bold">SignIn</button>
                     </Link></p>
                 </div>
+                <SocialLogin></SocialLogin>
                 
 
             </form>
             
             </div>
            <div className="flex-1">
-            
+            <Lottie animationData={registerLottie}></Lottie>
              
            </div>
         </div>
